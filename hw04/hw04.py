@@ -105,6 +105,18 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    def compare(n):
+        return total_weight(left(n))*length(left(n)) == total_weight(right(n))*length(right(n))
+    def balanced_helper(mi):
+        print(4)
+        if is_mobile(left(mi)):
+            print(1)
+            return balanced_helper(left(mi)) and compare(mi)
+        if is_mobile(right(mi)):
+            print(2)
+            return balanced_helper(right(mi)) and compare(mi)
+        print(3)
+        return compare(mi)
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
