@@ -1,0 +1,10 @@
+def square(x):
+    return x*x
+
+def trial(x):
+    return 3*x
+
+def compouse1(f,g):
+    def h(x):
+        return f(g(x))
+    return h
