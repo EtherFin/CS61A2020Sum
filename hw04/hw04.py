@@ -148,6 +148,10 @@ def totals_tree(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return tree(size(m))
+    else:
+        return tree(label(m),[totals_tree(end(left(m))),totals_tree(end(right(m)))])
 
 
 def replace_leaf(t, find_value, replace_value):
@@ -180,6 +184,16 @@ def replace_leaf(t, find_value, replace_value):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        if label(t)==find_value:
+            # print(tree(replace_value))
+            return tree(replace_value)
+        # print(tree(label(t)))
+        return tree(label(t))
+    else:
+        # print(label(t))
+        # print(tree([replace_leaf(branch, find_value, replace_value) for branch in branches(t)]))
+        return tree(label(t),[replace_leaf(branch, find_value, replace_value) for branch in branches(t)]) #忘记加return导致改了很久啊hhhh
 
 
 def preorder(t):
