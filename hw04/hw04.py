@@ -207,6 +207,14 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return [label(t)]
+    else:
+       list = []
+       list += [label(t)]
+       for branch in branches(t):
+           list += preorder(branch)
+       return list 
 
 
 def has_path(t, phrase):
