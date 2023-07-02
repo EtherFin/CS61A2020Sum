@@ -4,3 +4,4 @@
 'replace_leaf-correct', (1536, 66)
 'preorder-correct', (2048, 66)
 'has_path-correct', (2560, 66)
+'interval-correct', (3072, 66)
