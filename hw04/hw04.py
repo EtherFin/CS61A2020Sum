@@ -288,7 +288,7 @@ def mul_interval(x, y):
     p2 = lower_bound(x) * upper_bound(y)
     p3 = upper_bound(x) * lower_bound(y)
     p4 = upper_bound(x) * upper_bound(y)
-    return [min(p1, p2, p3, p4), max(p1, p2, p3, p4)]
+    return interval(min(p1, p2, p3, p4), max(p1, p2, p3, p4))
 
 
 def sub_interval(x, y):
@@ -305,7 +305,7 @@ def div_interval(x, y):
     any value in y. Division is implemented as the multiplication of x by the
     reciprocal of y."""
     "*** YOUR CODE HERE ***"
-    assert lower_bound(y)*upper_bound(y)>=0 
+    assert lower_bound(y)*upper_bound(y)>0
     reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
     return mul_interval(x, reciprocal_y)
 
@@ -384,8 +384,8 @@ def check_par():
     >>> lower_bound(x) != lower_bound(y) or upper_bound(x) != upper_bound(y)
     True
     """
-    r1 = interval(1, 1) # Replace this line!
-    r2 = interval(1, 1) # Replace this line!
+    r1 = interval(1, 3) # Replace this line!
+    r2 = interval(2, 4) # Replace this line!
     return r1, r2
 
 
