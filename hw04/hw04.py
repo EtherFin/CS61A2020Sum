@@ -266,7 +266,7 @@ def lower_bound(x):
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
-    return x[len(x)-1]
+    return x[1]
 
 
 def str_interval(x):
@@ -280,13 +280,14 @@ def add_interval(x, y):
     lower = lower_bound(x) + lower_bound(y)
     upper = upper_bound(x) + upper_bound(y)
     return interval(lower, upper)
+
 def mul_interval(x, y):
     """Return the interval that contains the product of any value in x and any
     value in y."""
-    p1 = x[0] * y[0]
-    p2 = x[0] * y[1]
-    p3 = x[1] * y[0]
-    p4 = x[1] * y[1]
+    p1 = lower_bound(x) * lower_bound(y)
+    p2 = lower_bound(x) * upper_bound(y)
+    p3 = upper_bound(x) * lower_bound(y)
+    p4 = upper_bound(x) * upper_bound(y)
     return [min(p1, p2, p3, p4), max(p1, p2, p3, p4)]
 
 
@@ -294,6 +295,9 @@ def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
+    lower = lower_bound(x)-upper_bound(y)
+    upper = upper_bound(x)-lower_bound(y)
+    return interval(lower, upper)
 
 
 def div_interval(x, y):
@@ -301,6 +305,7 @@ def div_interval(x, y):
     any value in y. Division is implemented as the multiplication of x by the
     reciprocal of y."""
     "*** YOUR CODE HERE ***"
+    assert lower_bound(y)*upper_bound(y)>=0 
     reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
     return mul_interval(x, reciprocal_y)
 
@@ -319,6 +324,46 @@ def quadratic(x, a, b, c):
     '0 to 10'
     """
     "*** YOUR CODE HERE ***"
+    # 因为只是简单的比较而导致的问题，可以直接使用min和max函数求值
+    # if x == 0:
+    #     lower_value = b*lower_bound(x)+c
+    #     upper_value = b*upper_bound(x)+c
+    #     return interval(lower_value, upper_value)
+    # else:
+    #     middle = -b/(2*a)
+    #     right_value = a*(lower_bound(x)*lower_bound(x))+b*lower_bound(x)+c
+    #     left_value = a*(upper_bound(x)*upper_bound(x))+b*upper_bound(x)+c
+    #     if a > 0:
+    #         if middle < lower_bound(x):
+    #             return interval(right_value, left_value)
+    #         elif middle > upper_bound(x):
+    #             return interval(left_value, right_value)
+    #         else:
+    #             min_value = a*middle*middle+b*middle+c
+    #             if abs(middle-lower_bound(x))>abs(middle-upper_bound(x)):
+    #                 return interval(min_value,left_value)
+    #             else:
+    #                 return interval(min_value,right_value)
+    #     else:
+    #         return quadratic(x, -a, b, c)
+    if a == 0:
+        # 当a=0时，是一元一次函数，直接返回b*x+c对应的区间
+        return interval(b * lower_bound(x) + c, b * upper_bound(x) + c)
+    else:
+        # 当a不为0时，需要先求出函数的极点，然后根据极点将区间x分成两部分
+        extreme_point = -b / (2 * a)
+        left_value = a * lower_bound(x) * lower_bound(x) + b * lower_bound(x) + c
+        right_value = a * upper_bound(x) * upper_bound(x) + b * upper_bound(x) + c
+        if extreme_point < lower_bound(x):
+            # 如果极点在x的左边，则只需要考虑区间右部分的值即可
+            return interval(min(right_value, left_value), max(right_value, left_value))
+        elif extreme_point > upper_bound(x):
+            # 如果极点在x的右边，则只需要考虑区间左部分的值即可
+            return interval(min(left_value, right_value), max(left_value, right_value))
+        else:
+            # 如果极点在x内部，需要比较左右两部分的值
+            extreme_value = a * extreme_point * extreme_point + b * extreme_point + c
+            return interval(min(extreme_value, left_value, right_value), max(extreme_value, right_value, left_value))
 
 
 def par1(r1, r2):
@@ -329,6 +374,7 @@ def par2(r1, r2):
     rep_r1 = div_interval(one, r1)
     rep_r2 = div_interval(one, r2)
     return div_interval(one, add_interval(rep_r1, rep_r2))
+
 def check_par():
     """Return two intervals that give different results for parallel resistors.
 
