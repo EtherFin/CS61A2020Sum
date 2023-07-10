@@ -17,6 +17,10 @@ def choose(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    if k < len([word for word in paragraphs if select(word)]):
+        return [word for word in paragraphs if select(word)][k]
+    else:
+        return ''
     # END PROBLEM 1
 
 
