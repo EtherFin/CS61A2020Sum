@@ -84,7 +84,7 @@ def wpm(typed, elapsed):
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
     return (((len(typed) / 5) * 60) / elapsed)
-    
+
     # END PROBLEM 4
     
 
@@ -96,6 +96,15 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    
+    if user_word in valid_words:
+        return user_word
+    Mcc = min(range(len(valid_words)), key = lambda i: diff_function(user_word, valid_words[i], limit))
+    if diff_function(user_word, valid_words[Mcc], limit) > limit:
+        return user_word
+    else:
+        return valid_words[Mcc]
+
     # END PROBLEM 5
 
 
@@ -105,7 +114,15 @@ def shifty_shifts(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    # assert False, 'Remove this line'
+
+    # if start == goal:
+    #     return 0
+    # elif len(start)==0 or len(goal)==0:
+    #     return len(start) + len(goal)
+    # else: 
+    #     return shifty_shifts(start[1:], goal[1:], limit) + (0 if start[0]==goal[0] else 1)
+
     # END PROBLEM 6
 
 
