@@ -175,6 +175,21 @@ def report_progress(typed, prompt, id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    
+    # for x in range(len(typed)):
+    #     if typed[x]!=prompt[x]:
+    #         send({'id': id, 'progress': x/len(prompt)})
+    #         return x/len(prompt)
+    # send({'id': id, 'progress': len(typed)/len(prompt)})
+    # return len(typed)/len(prompt)
+    
+    value_list = [x for x in range(len(typed)) if typed[x]!=prompt[x]]
+    if not value_list:
+        value = len(typed)/len(prompt)
+    else:
+        value = min(value_list)/len(prompt)
+    send({'id': id, 'progress': value})
+    return value
     # END PROBLEM 8
 
 
