@@ -157,7 +157,7 @@ def meowstake_matches(start, goal, limit):
         substitute_diff = meowstake_matches(goal[0]+start[1:], goal, limit -1) + 1
         # BEGIN
         "*** YOUR CODE HERE ***"
-        return min(add_diff, remove_diff, substitute_diff)
+        return min(add_diff, remove_diff, substitute_diff) #对于抽象的理解
         # END
 
 
