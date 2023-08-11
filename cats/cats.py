@@ -147,26 +147,17 @@ def meowstake_matches(start, goal, limit):
         "*** YOUR CODE HERE ***"
         return 1
         # END
-    elif len(start)==0 or len(goal)==0:
-        return len(start) + len(goal)
+    elif len(start)==0 or len(goal)==0:     # elif not start or not goal:
+        return len(start) + len(goal)       #     return max(len(start), len(goal))
+    elif start[0]==goal[0]:
+        return meowstake_matches(start[1:], goal[1:], limit)
     else:
-        add_diff = meowstake_matches(start, goal[1:], limit - 1) + 1  # Fill in these lines
+        add_diff = meowstake_matches(goal[0]+start, goal, limit - 1) + 1  # Fill in these lines
         remove_diff = meowstake_matches(start[1:], goal, limit - 1) + 1
-        substitute_diff = meowstake_matches(start[1:], goal[1:], limit -1) + 1
+        substitute_diff = meowstake_matches(goal[0]+start[1:], goal, limit -1) + 1
         # BEGIN
         "*** YOUR CODE HERE ***"
-        if start[0]==goal[0]:
-            return meowstake_matches(start[1:], goal[1:], limit)
-        else:
-            start_index = start.index(character) for character in start if character in goal
-            goal_index = goal.index(start[start_index])
-            phase = start_index - goal_index
-            if phase > 0:
-                return remove_diff
-            elif phase < 0:
-                return add_diff
-            else:
-                return substitute_diff
+        return min(add_diff, remove_diff, substitute_diff)
         # END
 
 
