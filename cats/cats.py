@@ -241,6 +241,7 @@ def fastest_words(game):
             if y == min([i for i in players if all_times(game)[i][x]==min([time(game, t, x) for t in players])]):
                 lst[y].append(word_at(game, x))
     return lst
+    
     # END PROBLEM 10
 
 
