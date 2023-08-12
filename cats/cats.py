@@ -216,6 +216,10 @@ def time_per_word(times_per_player, words):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    times = [[times_per_player[x][y+1]-times_per_player[x][y] for y in range(len(words))] for x in range(len(times_per_player))] # solution 1
+    times = [[times_per_player[x][y]-times_per_player[x][y-1] for y in range(len(times_per_player[0])) if y != 0] for x in range(len(times_per_player))] # solution 2
+    # print(times)
+    return game(words, times)
     # END PROBLEM 9
 
 
@@ -231,6 +235,12 @@ def fastest_words(game):
     words = range(len(all_words(game)))    # An index for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    lst = [[] for _ in players]
+    for x in words:
+        for y in players:
+            if y == min([i for i in players if all_times(game)[i][x]==min([time(game, t, x) for t in players])]):
+                lst[y].append(word_at(game, x))
+    return lst
     # END PROBLEM 10
 
 
