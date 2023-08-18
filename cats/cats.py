@@ -281,7 +281,7 @@ def game_string(game):
     """A helper function that takes in a game object and returns a string representation of it"""
     return "game(%s, %s)" % (game[0], game[1])
 
-enable_multiplayer = False  # Change to True when you
+enable_multiplayer = True  # Change to True when you
 
 ##########################
 # Extra Credit #
@@ -297,6 +297,52 @@ def key_distance_diff(start, goal, limit):
 
     # BEGIN PROBLEM EC1
     "*** YOUR CODE HERE ***"
+    # if start == goal:
+    #     return 0
+    # elif len(start)==0 or len(goal)==0:
+    #     return len(start) + len(goal)
+    # elif limit==0:
+    #     return float("inf")
+    # else: 
+    #     if start[0]==goal[0]:
+    #         return shifty_shifts(start[1:], goal[1:], limit)
+    #     else:
+    #         print(key_distance[start[0], goal[0]])
+    #         return shifty_shifts(start[1:], goal[1:], limit - 1) + key_distance[start[0], goal[0]]
+
+
+    if limit < 0: # Feel free to remove or add additional cases
+       return float("inf")
+    if len(start)==0 or len(goal)==0:     # elif not start or not goal:
+        return len(start) + len(goal)       #     return max(len(start), len(goal))
+    elif start[0]==goal[0]:
+        return key_distance_diff(start[1:], goal[1:], limit)
+    else:
+        add_diff = key_distance_diff(goal[0]+start, goal, limit - 1) + 1  # Fill in these lines
+        remove_diff = key_distance_diff(start[1:], goal, limit - 1) + 1
+        substitute_diff = key_distance_diff(goal[0]+start[1:], goal, limit -1) + key_distance[(start[0], goal[0])]
+        return min(min(add_diff, remove_diff), substitute_diff) #对于抽象的理解
+    
+    
+    # if limit < 0:
+    #     return float('inf')
+    # if len(start) == 0 or len(goal) == 0:
+    #     # BEGIN
+    #     "*** YOUR CODE HERE ***"
+    #     return len(start) + len(goal)
+    #     # END
+    # elif start[0] == goal[0]:
+    #     return key_distance_diff(start[1:], goal[1:], limit)
+    # else:
+    #     add_diff = 1 + key_distance_diff(start, goal[1:], limit - 1)
+    #     remove_diff = 1 + key_distance_diff(start[1:], goal, limit - 1) 
+    #     kd = key_distance[(start[0], goal[0])]
+    #     substitute_diff = kd + key_distance_diff(start[1:], goal[1:], limit - 1) 
+    #     # BEGIN
+    #     "*** YOUR CODE HERE ***"
+    #     return min(min(add_diff, remove_diff), substitute_diff)
+    #     # END
+    
     # END PROBLEM EC1
 
 def memo(f):
