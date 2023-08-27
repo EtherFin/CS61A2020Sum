@@ -310,7 +310,21 @@ def key_distance_diff(start, goal, limit):
     #         print(key_distance[start[0], goal[0]])
     #         return shifty_shifts(start[1:], goal[1:], limit - 1) + key_distance[start[0], goal[0]]
 
-
+    ########################################################################################
+    # key_distance_diff函数·初
+    # if limit < 0: # Feel free to remove or add additional cases
+    #    return float("inf")
+    # if len(start)==0 or len(goal)==0:     # elif not start or not goal:
+    #     return len(start) + len(goal)       #     return max(len(start), len(goal))
+    # elif start[0]==goal[0]:
+    #     return key_distance_diff(start[1:], goal[1:], limit)
+    # else:
+    #     add_diff = key_distance_diff(goal[0]+start, goal, limit - 1) + 1  # Fill in these lines
+    #     remove_diff = key_distance_diff(start[1:], goal, limit - 1) + 1
+    #     substitute_diff = key_distance_diff(goal[0]+start[1:], goal, limit -1) + key_distance[(start[0], goal[0])] #get_key_distance函数的返回值
+    #     return min(min(add_diff, remove_diff), substitute_diff) #对于抽象的理解
+    
+    # key_distance_diff函数·改
     if limit < 0: # Feel free to remove or add additional cases
        return float("inf")
     if len(start)==0 or len(goal)==0:     # elif not start or not goal:
@@ -320,9 +334,8 @@ def key_distance_diff(start, goal, limit):
     else:
         add_diff = key_distance_diff(goal[0]+start, goal, limit - 1) + 1  # Fill in these lines
         remove_diff = key_distance_diff(start[1:], goal, limit - 1) + 1
-        substitute_diff = key_distance_diff(goal[0]+start[1:], goal, limit -1) + key_distance[(start[0], goal[0])]
+        substitute_diff = key_distance_diff(goal[0]+start[1:], goal, limit -1) + key_distance[(start[0], goal[0])] #get_key_distance函数的返回值
         return min(min(add_diff, remove_diff), substitute_diff) #对于抽象的理解
-    
     
     # if limit < 0:
     #     return float('inf')
@@ -363,6 +376,17 @@ def faster_autocorrect(user_word, valid_words, diff_function, limit):
 
     # BEGIN PROBLEM EC2
     "*** YOUR CODE HERE ***"
+
+    # memoized = {}
+    # def f_a_inner(user_word, valid_words, diff_funciton, limit):
+    #     nonlocal memoized
+    #     if (user_word, valid_words, diff_function) in memoized:
+    #         return memoized[(user_word, valid_words)]
+    #     else:
+    #         memoized[(user_word, valid_words)] = diff_function(user_word, valid_words, limit)
+    # return f_a_inner(user_word, valid_words, diff_function, limit)
+
+    
     # END PROBLEM EC2
 
 
