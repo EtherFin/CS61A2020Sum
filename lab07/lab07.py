@@ -7,7 +7,7 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    return ______________________________
+    return [ [item] + inner_list for inner_list in nested_list ]
 
 def subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
@@ -19,11 +19,11 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if not len(s):
+        return [[]]
     else:
-        ________________
-        ________________
+        subsequences = insert_into_all(s[0], subseqs(s[1:])) + subseqs(s[1:])
+        return subsequences
 
 
 def inc_subseqs(s):
@@ -79,11 +79,26 @@ def trade(first, second):
     >>> c
     [4, 3, 1, 4, 1]
     """
+    # m, n = 1, 1
+
+    # equal_prefix = lambda: ______________________
+    # while _______________________________:
+    #     if __________________:
+    #         m += 1
+    #     else:
+    #         n += 1
+
+    # if equal_prefix():
+    #     first[:m], second[:n] = second[:n], first[:m]
+    #     return 'Deal!'
+    # else:
+    #     return 'No deal!'
+    
     m, n = 1, 1
 
-    equal_prefix = lambda: ______________________
-    while _______________________________:
-        if __________________:
+    equal_prefix = lambda: any()
+    while sum(first[:m]) != sum(second[:n]):
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
