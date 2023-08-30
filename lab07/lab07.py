@@ -79,11 +79,24 @@ def trade(first, second):
     >>> c
     [4, 3, 1, 4, 1]
     """
-    m, n = 1, 1
+    m, n = 1, 1 #m和n已经被定义
 
-    equal_prefix = lambda: ______________________
-    while _______________________________:
-        if __________________:
+    # equal_prefix = lambda: ______________________
+    # while _______________________________:
+    #     if __________________:
+    #         m += 1
+    #     else:
+    #         n += 1
+
+    # if equal_prefix():
+    #     first[:m], second[:n] = second[:n], first[:m]
+    #     return 'Deal!'
+    # else:
+    #     return 'No deal!'
+    
+    equal_prefix = lambda: sum(first[:m]) == sum(second[:n])
+    while m < len(first) and n < len(second) and not equal_prefix():
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
@@ -138,6 +151,15 @@ def make_glookup(class_assignments):
     0.8913043478260869
     """
     "*** YOUR CODE HERE ***"
+    full_scores = 0
+    got_scores = 0
+    def glookup(label, score):
+        nonlocal full_scores
+        nonlocal got_scores
+        got_scores+=score
+        full_scores+=cs61a[label]
+        return got_scores/full_scores
+    return glookup
 
 
 def num_trees(n):
@@ -160,9 +182,14 @@ def num_trees(n):
     429
 
     """
-    if ____________________:
-        return _______________
-    return _______________
+    
+    # 有n片树叶的树(treen)等于有n-1(treen-1)片树叶的树把其中一片树叶变成一个有两片树叶的分支
+    # num_trees(n)等于num_trees(n-1)*(n-1) 因为有num_trees(n-1)种形式的树，所以相乘
+    # 最基本情况，即最简单情况，只有一片树叶
+    if n == 1:
+        return 1
+    return int( (2 * (2 * (n - 1) - 1) * num_trees(n-1)) / n )  #Catalan number加泰罗尼亚数
+    
 
 
 def make_advanced_counter_maker():
