@@ -21,18 +21,6 @@ def partition_options(total, biggest):
     >>> pratition_options(4, 3)
     [[3, 1], [2, 2], [2, 1, 1], [1, 1, 1, 1]]
     """
-    # if ?:
-    #     return ?
-    # elif ?:
-    #     return ?
-    # else:
-    #     with_biggest = ?
-    #     without_biggest = ?
-    #     ? = [[?]?]
-    #     return with_biggest + without_biggest
-
-        
-     
     if total == 0:
         return [[]]
     elif total < 0 or biggest == 0:
