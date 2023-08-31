@@ -21,12 +21,28 @@ def partition_options(total, biggest):
     >>> pratition_options(4, 3)
     [[3, 1], [2, 2], [2, 1, 1], [1, 1, 1, 1]]
     """
-    if ?:
-        return ?
-    elif ?:
-        return ?
+    # if ?:
+    #     return ?
+    # elif ?:
+    #     return ?
+    # else:
+    #     with_biggest = ?
+    #     without_biggest = ?
+    #     ? = [[?]?]
+    #     return with_biggest + without_biggest
+
+        
+     
+    if total == 0:
+        return [[]]
+    elif total < 0 or biggest == 0:
+        return []
     else:
-        with_biggest = ?
-        without_biggest = ?
-        ? = [[?]?]
+        with_biggest = partition_options(total-biggest, biggest)
+        without_biggest = partition_options(total, biggest-1)
+        with_biggest = [[biggest] + elem for elem in with_biggest] #此处应该如此使用，用 " + "
         return with_biggest + without_biggest
+    
+print(partition_options(2, 2))
+print(partition_options(3, 3))
+print(partition_options(4, 3))
