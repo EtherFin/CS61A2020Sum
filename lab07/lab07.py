@@ -221,13 +221,23 @@ def make_advanced_counter_maker():
     >>> tom_counter('global-count')
     1
     """
-    ________________
-    def ____________(__________):
-        ________________
-        def ____________(__________):
-            ________________
-            "*** YOUR CODE HERE ***"
-            # as many lines as you want
-        ________________
-    ________________
+    
+    global_counter = 0
+    def make_counter():
+        local_counter = 0
+        def counter(message):
+            nonlocal global_counter
+            nonlocal local_counter
+            if message == "count":
+                local_counter+=1
+                return local_counter
+            elif message == "global-count":
+                global_counter+=1
+                return global_counter
+            elif message == "reset":
+                local_counter = 0
+            elif message == "global-reset":
+                global_counter = 0
+        return counter
+    return make_counter
 

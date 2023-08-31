@@ -4,3 +4,4 @@
 'trade-correct', (1536, 66)
 'num_trees-correct', (2048, 66)
 'make_glookup-correct', (2560, 66)
+'make_advanced_counter_maker-correct', (3072, 66)
