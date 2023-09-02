@@ -45,6 +45,17 @@ def nonlocalist():
     #     return value
     # return prepend, get
 
+    get = lambda x: "Index out of range!"
+    def prepend(value):
+        nonlocal get
+        f = get
+        def get(i):
+            if i == 0:
+                return value
+        return value
+    return prepend, get
+            return f(i-1)
+
 
 prepend, get = nonlocalist()
 prepend(2)
@@ -55,3 +66,9 @@ print(get(1)) #3
 print(get(2)) #2
 prepend(8)
 print(get(2)) #t3
+
+
+def countdown(k):
+    if k > 0:
+        yield k
+        yield from countdown(k-1)
