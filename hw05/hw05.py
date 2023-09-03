@@ -103,7 +103,17 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
-    
+    #注：次数的出现k次为连续出现k次
+    count = 0
+    prev = next(t)
+    while count < k - 1:
+        curr = next(t)
+        if prev == curr:
+            count +=1
+        else:
+            count = 0
+        prev = curr # 相当于将p向后移动一位但迭代器整体并不会向后移动，因为没有执行next(t)语句
+    return prev # 迭代器有待提升？？？
 
 
 def merge(incr_a, incr_b):
