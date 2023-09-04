@@ -45,17 +45,15 @@ def nonlocalist():
     #     return value
     # return prepend, get
 
-    # get = lambda x: "Index out of range!"
-    # def prepend(value):
-    #     nonlocal get
-    #     f = get
-    #     def get(i):
-    #         if i == 0:
-    #             return value
-    #     return value
-    # return prepend, get
-    #         return f(i-1)
-    return false
+    get = lambda x: "Index out of range!"
+    def prepend(value):
+        nonlocal get
+        f = get
+        def get(i):
+            if i == 0:
+                return value
+            return f(i-1)
+    return prepend, lambda x: get(x)  #用lambda改变get的绑定 ！！！
 
 
 # prepend, get = nonlocalist()
@@ -223,11 +221,12 @@ def primary_stress(t):
             return [label(t), num_s]
         if label(t) == "s":
             num_s = num_s + 1
-        return helper(max(branches(t),key = lambda x: helper(x, num_s)[1] if is_leaf(x) else helper(x, num_s)), num_s)
-    return helper(t, 0)
+        return max([helper(br, num_s) for br in branches(t)], key = lambda x: x[1]) # 递归的抽象 ！！！
+    return helper(t, 0)[0]
 
 
 word = tree("", [
     tree("w", [tree("s", [tree("min")]), tree("w", [tree("ne")])]),
     tree("s", [tree("s", [tree("so")]), tree("w", [tree("ta")])])])
 print(primary_stress(word))
+
