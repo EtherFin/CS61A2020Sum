@@ -77,7 +77,6 @@ def make_withdraw(balance, password):
         else:
             error_pas += [pas]
             return "Incorrect password"
-            
     return withdraw
 
 
