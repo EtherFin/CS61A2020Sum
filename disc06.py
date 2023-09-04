@@ -236,7 +236,7 @@ def subset_sum(seq, k):
     elif not seq:
         return False
     else:
-        # return subset_sum(seq[1:], k - seq[0])
+        # return subset_sum(seq[1:], k - seq[0]) or subset_num(seq[1:], k)
         return any([subset_sum(seq[1:], k - x) for x in seq])
 
 
