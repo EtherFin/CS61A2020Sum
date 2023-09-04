@@ -225,8 +225,20 @@ def primary_stress(t):
     return helper(t, 0)[0]
 
 
-word = tree("", [
-    tree("w", [tree("s", [tree("min")]), tree("w", [tree("ne")])]),
-    tree("s", [tree("s", [tree("so")]), tree("w", [tree("ta")])])])
-print(primary_stress(word))
+# word = tree("", [
+#     tree("w", [tree("s", [tree("min")]), tree("w", [tree("ne")])]),
+#     tree("s", [tree("s", [tree("so")]), tree("w", [tree("ta")])])])
+# print(primary_stress(word))
 
+def subset_sum(seq, k):
+    if k in seq:
+        return True 
+    elif not seq:
+        return False
+    else:
+        # return subset_sum(seq[1:], k - seq[0])
+        return any([subset_sum(seq[1:], k - x) for x in seq])
+
+
+print(subset_sum([2, 4, 7, 3], 5))
+print(subset_sum([1, 9, 5, 7, 3], 2))
