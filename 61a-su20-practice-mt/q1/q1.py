@@ -16,17 +16,25 @@ def same_digits(a, b):
     >>> same_digits(2020, 20) # 2020 and 20 are not the same
     False
     """
+    
+    # 去掉重复的数字 22020002 = 20202
     assert a > 0 and b > 0
     while a and b:
-        if ______:
+        if a % 10 == b % 10:
             end = a % 10
-            while ______:
+            while a % 10 == end:
                 a = a // 10
-            while ______:
+            while b % 10 == end:
                 b = b // 10
         else:
-            ______
-    ______
+            return False
+    return a == b
+
+print(same_digits(2002200, 2202000)) # Ignoring repeats, both are 2020
+print(same_digits(21, 12)) # Digits must appear in the same order
+print(same_digits(12, 2212)) # 12 and 212 are not the same
+print(same_digits(2020, 20)) # 2020 and 20 are not the same
+
 
 # ORIGINAL SKELETON FOLLOWS
 
