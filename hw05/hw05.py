@@ -69,14 +69,14 @@ def make_withdraw(balance, password):
         nonlocal error_pas
         if len(error_pas) >= 3:
             return "Too many incorrect attempts. Attempts: %s" % error_pas
-        if pas == password:
+        if pas != password:
+            error_pas += [pas]
+            return "Incorrect password"
+        else:
             if amount > balance:
                 return "Insufficient funds"
             balance -= amount
             return balance
-        else:
-            error_pas += [pas]
-            return "Incorrect password"
     return withdraw
 
 
@@ -191,7 +191,25 @@ def make_joint(withdraw, old_pass, new_pass):
     >>> make_joint(w, 'hax0r', 'hello')
     "Too many incorrect attempts. Attempts: ['my', 'secret', 'password']"
     """
+    # Q5: 共同账户
+    # 假设我们的银行系统需要支持创建共同账户。定义一个名为`make_joint`的函数，它接受三个参数：
+    # 1. 一个受密码保护的提款函数，
+    # 2. 用于定义该提款函数的密码，以及
+    # 3. 可以访问原始账户的新密码。
+    # 如果密码不正确或无法验证，因为底层账户已被锁定，`make_joint`函数应传播错误。否则，它将返回一个提款函数，允许使用新密码或旧密码来额外访问原始账户。这两个函数都从相同的余额中提款。对任一函数提供的不正确密码将被存储，并在三次错误尝试后锁定这些函数。
+    # 提示：解决方案很短（不超过10行），不包含字符串文字！关键是使用正确的密码和金额调用提款函数，然后解释结果。您可以假设所有提款的失败尝试都将返回一些字符串（表示密码不正确、账户已锁定或资金不足），而成功提款将返回一个数字。
+    # 使用`type(value) == str`来测试某个值是否为字符串。
     "*** YOUR CODE HERE ***"
+    value = withdraw(0, old_pass)
+    if type(value) == str:
+        return value
+    def join(amount, pas):
+        if pas == new_pass or pas == old_pass: # or pas == old_pass 可以去除，因为在else的情况中也包含
+            return withdraw(amount, old_pass)
+        return withdraw(amount, pas)
+    return join
+
+
 
 
 def remainders_generator(m):
@@ -226,6 +244,26 @@ def remainders_generator(m):
     11
     """
     "*** YOUR CODE HERE ***"
+    # def isin(i, m):
+    #     t = 0
+    #     while True:
+    #         yield i + m * t
+    #         t += 1
+
+    # iter = 1
+    # yield isin(m, m)
+    # while iter < m:
+    #     yield isin(iter, m)
+    #     iter += 1
+
+    def generator(n):
+        while True:
+            yield n
+            n = m + n
+    yield generator(m)
+    for i in list(range(m))[1:]:
+        yield generator(i)
+
 
 
 def naturals():
