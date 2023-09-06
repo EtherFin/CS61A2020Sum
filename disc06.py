@@ -242,3 +242,24 @@ def subset_sum(seq, k):
 
 # print(subset_sum([2, 4, 7, 3], 5))
 # print(subset_sum([1, 9, 5, 7, 3], 2))
+
+
+def combo(a, b):
+    """Return the smallest integer with all of the digits of a and b (in order).
+    
+    >>> combo(531, 432)
+    45312
+    >>> combo(531, 4321)
+    45321
+    >>> combo(1234, 9123)
+    91234
+    >>> combo(0, 321)
+    """
+    if not a or not b:
+        return a + b
+    elif a % 10 == b % 10:
+        return combo(a // 10, b // 10) * 10 + a % 10
+    return min(combo(a // 10, b) * 10 + a % 10, combo(a, b // 10) * 10 + b % 10)
+
+
+print(combo(531, 432))
