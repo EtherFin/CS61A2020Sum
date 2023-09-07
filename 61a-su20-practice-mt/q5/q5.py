@@ -1,4 +1,4 @@
-
+ 
 # Implement sequence, which takes a positive integer n and a function term. It returns an integer whose digits
 # show the n elements of the sequence term(1), term(2), . . . , term(n) in order. Assume the term function takes
 # a positive integer argument and returns a positive integer.
