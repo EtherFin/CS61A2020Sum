@@ -40,7 +40,7 @@ def close(n, smallest=10, d=10):
     # return ______
 
     if n == 0:
-      return 0
+      return ______
     no = close(n//10, smallest, d)
     if smallest > ______:
         yes = ______
