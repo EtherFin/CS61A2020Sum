@@ -33,4 +33,5 @@ def make_generators_generator(g):
     9
     """
     "*** YOUR CODE HERE ***"
-
+    def gen_helper():
+        
