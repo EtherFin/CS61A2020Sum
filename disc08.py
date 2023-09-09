@@ -31,6 +31,6 @@ b.n = 5
 # Which evaluates to an integer?
 # b.z
 # b.z.z
-# b.z.z.z
+print(b.z.z.z)
 # b.z.z.z.z
 # None of these
