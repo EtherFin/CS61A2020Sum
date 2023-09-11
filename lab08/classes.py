@@ -190,6 +190,7 @@ class TACard(Card):
         300
         """
         "*** YOUR CODE HERE ***"
+        other_card.attack, other_card.defense = other_card.defense, other_card.attack
 
     def copy(self):
         """
@@ -220,11 +221,17 @@ class ProfessorCard(Card):
         """
         orig_opponent_deck_length = len(opponent.deck.cards)
         "*** YOUR CODE HERE ***"
+        for card in player.deck.cards:
+            card.attack += other_card.attack
+            card.defense += other_card.defense
+
+        opponent.deck.cards = [card for card in opponent.deck.cards if not (card.attack == other_card.attack or card.defense == other_card.defense)]
+        
         discarded = orig_opponent_deck_length - len(opponent.deck.cards)
         if discarded:
             #Uncomment the line below when you've finished implementing this method!
-            #print('{} cards were discarded from {}\'s deck!'.format(discarded, opponent.name))
-            return
+            print('{} cards were discarded from {}\'s deck!'.format(discarded, opponent.name))
+            return # return可以不接任何值
 
     def copy(self):
         return ProfessorCard(self.name, self.attack, self.defense)
