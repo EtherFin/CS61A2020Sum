@@ -159,7 +159,7 @@ def path_yielder(t, value):
     >>> t1 = Tree(1, [Tree(2, [Tree(3), Tree(4, [Tree(6)]), Tree(5)]), Tree(5)])
     >>> print(t1)
     1
-      2
+       2
         3
         4
           6
