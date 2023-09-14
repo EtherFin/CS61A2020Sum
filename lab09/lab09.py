@@ -8,6 +8,10 @@ def convert_link(link):
     []
     """
     "*** YOUR CODE HERE ***"
+    if link is Link.empty:
+        return []
+    else:
+        return [link.first] + convert_link(link.rest)
 
 
 def every_other(s):
@@ -28,6 +32,8 @@ def every_other(s):
     Link(4)
     """
     "*** YOUR CODE HERE ***"
+    
+    
 
 
 def label_squarer(t):
