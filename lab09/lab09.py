@@ -32,7 +32,12 @@ def every_other(s):
     Link(4)
     """
     "*** YOUR CODE HERE ***"
-    
+    # 应该使用递归，因为Link本身就是一种递归的结构
+    if s == Link.empty or s.rest == Link.empty:
+        return 
+    else:
+        s.rest = s.rest.rest
+        every_other(s.rest)
     
 
 
@@ -45,6 +50,7 @@ def label_squarer(t):
     Tree(1, [Tree(9, [Tree(25)]), Tree(49)])
     """
     "*** YOUR CODE HERE ***"
+    t.map(lambda x: x**2)
 
 
 def cumulative_mul(t):
@@ -57,6 +63,15 @@ def cumulative_mul(t):
     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
     """
     "*** YOUR CODE HERE ***"
+    def helper(tree):
+        if tree.is_leaf():
+            return tree.label
+        else:
+            for b in tree.branches:
+                tree.label *= helper(b)
+            return tree.label
+    helper(t)
+    return
 
 
 def has_cycle(link):
@@ -74,6 +89,7 @@ def has_cycle(link):
     False
     """
     "*** YOUR CODE HERE ***"
+    
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
