@@ -119,6 +119,8 @@ def reverse_other(t):
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
     "*** YOUR CODE HERE ***"
+    # 要调换的是奇数深度的顺序，而不是有奇数分支的序列
+        
 
 
 class Link:
