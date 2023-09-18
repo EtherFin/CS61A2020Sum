@@ -57,15 +57,28 @@ class VendingMachine:
         self.money = 0
     
     def restock(self, stock):
-        self.stock = stock
+        self.stock += stock
+        return 'Current {0} stock: {1}'.format(self.product, self.stock)
     
     def vend(self):
-        """_summary_
-        """
+        if self.stock == 0:
+            return 'Inventory empty. Restocking required.'
+        elif self.money < self.fund:
+            return 'You must add ${0} more funds.'.format(self.fund - self.money)
+        elif self.money > self.fund:
+            change = self.money - self.fund
+            self.money = 0
+            self.stock -= 1
+            return 'Here is your {0} and ${1} change.'.format(self.product, change)
+        else:
+            self.stock -= 1
+            return 'Here is your {0}.'.format(self.product)
         
     def add_funds(self, money):
+        if self.stock == 0:
+            return 'Inventory empty. Restocking required. Here is your ${0}.'.format(money)
         self.money += money
-        print('Current balance: ${0}'.format(self.money))
+        return 'Current balance: ${0}'.format(self.money)
         
 
 
