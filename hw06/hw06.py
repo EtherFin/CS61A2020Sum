@@ -50,6 +50,26 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    def __init__(self, product, fund):
+        self.product = product
+        self.fund = fund
+        self.stock = 0
+        self.money = 0
+    
+    def restock(self, stock):
+        self.stock = stock
+    
+    def vend(self):
+        if self.stock == 0:
+            
+        if self.money >= self.fund:
+            self.money -= self.fund
+        
+        
+    def add_funds(self, money):
+        self.money += money
+        print('Current balance: ${0}'.format(self.money))
+        
 
 
 class Mint:
