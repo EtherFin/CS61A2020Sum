@@ -60,11 +60,8 @@ class VendingMachine:
         self.stock = stock
     
     def vend(self):
-        if self.stock == 0:
-            
-        if self.money >= self.fund:
-            self.money -= self.fund
-        
+        """_summary_
+        """
         
     def add_funds(self, money):
         self.money += money
