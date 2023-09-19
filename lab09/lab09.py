@@ -89,7 +89,16 @@ def has_cycle(link):
     False
     """
     "*** YOUR CODE HERE ***"
-    
+    p = link
+    visited = set()
+    while p != Link.empty:
+        if p in visited:
+            return True
+        else:
+            visited.add(p)
+            p = p.rest
+    return False
+
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
@@ -103,6 +112,27 @@ def has_cycle_constant(link):
     False
     """
     "*** YOUR CODE HERE ***"
+    p = link
+    visited = set()
+    # while p != Link.empty:
+    #     if p in visited:
+    #         return True
+    #     else:
+    #         visited.add(p)
+    #         p = p.rest
+    # return False
+    
+    # 使两个指针一快一慢即可
+    p_slow, p_fast = link, link
+    while p_fast != Link.empty:
+        p_slow = p_slow.rest
+        if p_fast.rest != Link.empty:
+            p_fast = p_fast.rest.rest
+            if p_slow == p_fast:
+                return True
+        else:
+            break
+    return False
 
 
 def reverse_other(t):
@@ -120,8 +150,15 @@ def reverse_other(t):
     """
     "*** YOUR CODE HERE ***"
     # 要调换的是奇数深度的顺序，而不是有奇数分支的序列
-        
-
+    if t.is_leaf():
+        return 
+    label_list = []
+    for b in t.branches:
+        label_list.append(b.label)
+    for b, new_label in zip(t.branches, reversed(label_list)): # zip函数的作用
+        b.label = new_label
+        for bb in b.branches:
+            reverse_other(bb)
 
 class Link:
     """A linked list.
