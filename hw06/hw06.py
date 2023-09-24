@@ -115,12 +115,15 @@ class Mint:
 
     def __init__(self):
         self.update()
+        self.year = Mint.current_year
 
     def create(self, kind):
         "*** YOUR CODE HERE ***"
+        return kind(self.year)
 
     def update(self):
         "*** YOUR CODE HERE ***"
+        self.year = Mint.current_year
 
 class Coin:
     def __init__(self, year):
@@ -128,6 +131,8 @@ class Coin:
 
     def worth(self):
         "*** YOUR CODE HERE ***"
+        years = Mint.current_year - self.year
+        return self.cents + years - (50 if years > 50 else 0)
 
 class Nickel(Coin):
     cents = 5
@@ -162,6 +167,18 @@ def is_bst(t):
     False
     """
     "*** YOUR CODE HERE ***"
+    def bst_min(tree):
+        return min([tree.label] + [b.label for b in tree.branches])
+    def bst_max(tree):
+        return max([tree.label] + [b.label for b in tree.branches])
+    if t.is_leaf():
+        return True
+    if len(t.branches) > 2:
+        return False
+    elif len(t.branches) == 2:
+        return bst_max(t.branches[0]) <= t.label and bst_min(t.branches[1]) > t.label and all([is_bst(b) for b in t.branches])
+    else:
+        return all([is_bst(b) for b in t.branches])
 
 
 def store_digits(n):
@@ -180,7 +197,18 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    def helper(number):
+        i = 1
+        while number//(10**i) != 0:
+            i += 1
+        return 10**(i-1)
+    if n < 10:
+        return Link(n)
+    else:
+        Wei = helper(n)
+        return Link(n//Wei, store_digits(n%Wei))
 
+            
 
 def path_yielder(t, value):
     """Yields all possible paths from the root of t to a node with the label value
@@ -189,7 +217,7 @@ def path_yielder(t, value):
     >>> t1 = Tree(1, [Tree(2, [Tree(3), Tree(4, [Tree(6)]), Tree(5)]), Tree(5)])
     >>> print(t1)
     1
-       2
+      2
         3
         4
           6
@@ -217,12 +245,21 @@ def path_yielder(t, value):
     [[0, 2], [0, 2, 1, 2]]
     """
 
-    "*** YOUR CODE HERE ***"
+    # "*** YOUR CODE HERE ***"
 
-    for _______________ in _________________:
-        for _______________ in _________________:
+    # for _______________ in _________________:
+    #     for _______________ in _________________:
 
-            "*** YOUR CODE HERE ***"
+    #         "*** YOUR CODE HERE ***"
+
+
+    if t.label == value:
+        yield [t.label]
+    for b in t.branches:
+        for path in list(path_yielder(b, value)):
+            if value in b:
+                yield [t.label] + path
+
 
 
 def remove_all(link , value):
@@ -243,6 +280,14 @@ def remove_all(link , value):
     <0 1>
     """
     "*** YOUR CODE HERE ***"
+    if link == Link.empty or link.rest == Link.empty:
+        return 
+    else:
+        if link.rest.first == value:
+            link.rest = link.rest.rest
+            remove_all(link, value) #因为在上一条语句中，link.rest已经被改变，向下进行了一次位移，再次传入，link.rest会跳过一个元素
+        remove_all(link.rest, value)
+
 
 
 def deep_map(f, link):
@@ -259,8 +304,14 @@ def deep_map(f, link):
     <<2 <4 6> 8> <<10>>>
     """
     "*** YOUR CODE HERE ***"
-
-
+    if link == Link.empty:
+        return Link.empty
+    else:
+        if type(link.first) == Link:
+            return Link(deep_map(f, link.first), deep_map(f, link.rest))
+        else:
+            return Link(f(link.first), deep_map(f, link.rest))
+        
 class Tree:
     """
     >>> t = Tree(3, [Tree(2, [Tree(5)]), Tree(4)])
