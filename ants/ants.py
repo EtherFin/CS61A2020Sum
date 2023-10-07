@@ -166,6 +166,8 @@ class ThrowerAnt(Ant):
     damage = 1
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
     food_cost = 3
+    min_range = 0
+    max_range = float('inf')
 
     def nearest_bee(self, beehive):
         """Return the nearest Bee in a Place that is not the HIVE, connected to
@@ -175,11 +177,13 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         place = self.place
+        i = 0
         while place != beehive:
-            if place.bees:
+            if place.bees and i >= self.min_range and i <= self.max_range:
                 return rANTdom_else_none(place.bees)
             else:
                 place = place.entrance
+                i += 1
         return None
         # return rANTdom_else_none(self.place.bees) # REPLACE THIS LINE
         # END Problem 3 and 4
@@ -209,8 +213,10 @@ class ShortThrower(ThrowerAnt):
     name = 'Short'
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
+    min_range = 0
+    max_range = 3
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 class LongThrower(ThrowerAnt):
@@ -219,8 +225,10 @@ class LongThrower(ThrowerAnt):
     name = 'Long'
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
+    min_range = 5
+    max_range = float('inf')
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 class FireAnt(Ant):
@@ -231,7 +239,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, armor=3):
@@ -247,6 +255,21 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        # TODO :still need to study !
+        def reflected_damage(amount):
+            remaining_bees = []
+            for bee in self.place.bees:
+                if bee.armor > amount:
+                    remaining_bees.append(bee)
+            for bee in self.place.bees.copy():
+                Insect.reduce_armor(bee, amount)
+            self.place.bees = remaining_bees
+        reflected_damage(amount)
+        print("DEBUG: remaining bees armor", [bee.armor for bee in self.place.bees])
+        if self.armor <= amount:
+            reflected_damage(self.damage)
+            print("DEBUG: remaining bees armor", [bee.armor for bee in self.place.bees])
+        Ant.reduce_armor(self, amount)
         # END Problem 5
 
 class HungryAnt(Ant):
@@ -256,23 +279,33 @@ class HungryAnt(Ant):
     name = 'Hungry'
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
+    time_to_digest = 3
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 6
 
     def __init__(self, armor=1):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        Ant.__init__(self, armor)
+        self.digesting = 0
         # END Problem 6
 
     def eat_bee(self, bee):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        self.digesting = self.time_to_digest
+        bee.reduce_armor(bee.armor) # 这个方法包括了把bee从列表中移除等各种操作
         # END Problem 6
 
     def action(self, gamestate):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        if self.digesting == 0 and len(self.place.bees) != 0:
+            self.eat_bee(rANTdom_else_none(self.place.bees))
+        else:
+            if self.digesting > 0:
+                self.digesting -= 1
         # END Problem 6
 
 class NinjaAnt(Ant):
