@@ -480,6 +480,7 @@ class QueenAnt(Ant):  # You should change this line
     def __init__(self, armor=1):
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
+        self.armor = armor
         # END Problem 13
 
     def action(self, gamestate):
