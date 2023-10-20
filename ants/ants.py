@@ -107,6 +107,7 @@ class Ant(Insect):
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
     # ADD CLASS ATTRIBUTES HERE
+    doubled = False
     blocks_path = True
 
     def __init__(self, armor=1):
@@ -138,6 +139,8 @@ class Ant(Insect):
         Insect.add_to(self, place)
 
     def remove_from(self, place):
+        if isinstance(self, QueenAnt) and self.TheOne:
+            return
         if place.ant is self:
             place.ant = None
         elif place.ant is None:
@@ -200,6 +203,7 @@ class ThrowerAnt(Ant):
         """Throw a leaf at the TARGET Bee, reducing its armor."""
         if target is not None:
             target.reduce_armor(self.damage)
+        
 
     def action(self, gamestate):
         """Throw a leaf at the nearest Bee in range."""
@@ -462,11 +466,11 @@ class ScubaThrower(ThrowerAnt):
     implemented = True
     
     def __init__(self, armor=1):
-        self.armor = armor
+        super().__init__(armor)
 # END Problem 12
 
 # BEGIN Problem 13
-class QueenAnt(Ant):  # You should change this line
+class QueenAnt(ScubaThrower):  # You should change this line
 # END Problem 13
     """The Queen of the colony. The game is over if a bee enters her place."""
 
@@ -474,13 +478,19 @@ class QueenAnt(Ant):  # You should change this line
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 13
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 13
+    onlyOne = False
 
     def __init__(self, armor=1):
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
-        self.armor = armor
+        super().__init__(armor)
+        if not QueenAnt.onlyOne:
+            self.TheOne = True
+        else:
+            self.TheOne = False
+        QueenAnt.onlyOne = True
         # END Problem 13
 
     def action(self, gamestate):
@@ -491,7 +501,26 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
-        # END Problem 13
+        if not self.TheOne:
+            self.reduce_armor(self.armor)
+        else:
+            ScaryThrower.action(self, gamestate)
+            temp = self.place.exit
+            while temp.exit != None:
+                if temp.ant:
+                    cur_ant = temp.ant
+                else:
+                    temp = temp.exit
+                    continue
+                if isinstance(temp.ant, ContainerAnt):
+                    if cur_ant.contained_ant and not cur_ant.contained_ant.doubled:
+                        cur_ant.contained_ant.damage *= 2
+                        cur_ant.contained_ant.doubled = True
+                if not cur_ant.doubled:
+                    cur_ant.damage *= 2
+                    cur_ant.doubled = True
+                temp = temp.exit
+            # END Problem 13
 
     def reduce_armor(self, amount):
         """Reduce armor by AMOUNT, and if the True QueenAnt has no armor
@@ -499,6 +528,11 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
+        self.armor -= amount
+        if self.armor <= 0 and self.TheOne:
+            bees_win()
+        self.place.remove_insect(self)
+        self.death_callback()
         # END Problem 13
 
 
